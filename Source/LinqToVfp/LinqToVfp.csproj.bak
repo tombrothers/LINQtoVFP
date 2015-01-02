@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BD0CB824-C174-49D9-9174-D57F71253784}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LinqToVfp</RootNamespace>
+    <AssemblyName>LinqToVfp</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="IQToolkit">
+      <HintPath>..\Resources\IQToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="IQToolkit.Data">
+      <HintPath>..\Resources\IQToolkit.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="IQToolkitContrib">
+      <HintPath>..\Resources\IQToolkitContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="VfpClient3.5, Version=0.5.6.9770, Culture=neutral, PublicKeyToken=78aaa56544ab725d, processorArchitecture=MSIL">
+      <HintPath>..\Resources\VfpClient3.5.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AggregateChecker.cs" />
+    <Compile Include="ExpressionRewriters\ConditionalImmediateIfNullRemover.cs" />
+    <Compile Include="ExpressionRewriters\CrossApplyRewriter.cs" />
+    <Compile Include="ExpressionRewriters\CrossJoinRewriter.cs" />
+    <Compile Include="ExpressionRewriters\OrderByRewriter.cs" />
+    <Compile Include="ExpressionRewriters\XmlToCursorExpressionRewriter.cs" />
+    <Compile Include="ExpressionRewriters\RedundantColumnRemover.cs" />
+    <Compile Include="ExpressionRewriters\RedundantJoinRemover.cs" />
+    <Compile Include="ExpressionRewriters\RedundantSubqueryRemover.cs" />
+    <Compile Include="ExpressionRewriters\SkipToNestedOrderByRewriter.cs" />
+    <Compile Include="ExpressionRewriters\UnusedColumnRemover.cs" />
+    <Compile Include="ExpressionRewriters\XmlToCursorJoinRewriter.cs" />
+    <Compile Include="Mapping\VfpAdvancedMapper.cs" />
+    <Compile Include="Mapping\VfpBasicMapper.cs" />
+    <Compile Include="NamedValueGatherer.cs" />
+    <Compile Include="Properties\SharedAssemblyInfo.cs" />
+    <Compile Include="ReadOnlyExtensions.cs" />
+    <Compile Include="Mapping\VfpAdvancedMapping.cs" />
+    <Compile Include="Mapping\VfpAttributeMapping.cs" />
+    <Compile Include="Mapping\VfpBasicMapping.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExpressionRewriters\SkipToRowNumberRewriter.cs" />
+    <Compile Include="IVfpEntitySession.cs" />
+    <Compile Include="ReferencedColumnGatherer.cs" />
+    <Compile Include="SubqueryRemover.cs" />
+    <Compile Include="VfpDataReader.cs" />
+    <Compile Include="VfpDbQueryType.cs" />
+    <Compile Include="ExpressionRewriters\VfpCrossJoinIsolator.cs" />
+    <Compile Include="VfpExecutionBuilder.cs" />
+    <Compile Include="VfpExecutionBuilder.EntityFinder.cs" />
+    <Compile Include="VfpExecutionBuilder.OuterParameterizer.cs" />
+    <Compile Include="VfpExecutionBuilder.ProjectionFinder.cs" />
+    <Compile Include="VfpExecutionBuilder.Scope.cs" />
+    <Compile Include="VfpExecutionBuilder.VariableSubstitutor.cs" />
+    <Compile Include="VfpExpression.cs" />
+    <Compile Include="VfpExpressionType.cs" />
+    <Compile Include="VfpExpressionVisitor.cs" />
+    <Compile Include="VfpFormatter.cs" />
+    <Compile Include="Mapping\VfpImplicitMapping.cs" />
+    <Compile Include="VfpLanguage.cs" />
+    <Compile Include="VfpLanguage.VfpLinguist.cs" />
+    <Compile Include="VfpParameterizer.cs" />
+    <Compile Include="VfpQueryPolice.cs" />
+    <Compile Include="VfpQueryPolicy.cs" />
+    <Compile Include="VfpQueryProvider.cs" />
+    <Compile Include="VfpQueryProvider.Executor.cs" />
+    <Compile Include="VfpQueryProvider.OleDbQueryProvider.cs" />
+    <Compile Include="VfpTypeSystem.cs" />
+    <Compile Include="Mapping\VfpXmlMapping.cs" />
+    <Compile Include="ExpressionRewriters\WhereCountComparisonRewriter.cs" />
+    <Compile Include="XmlToCursorExpression.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="VfpExecutionBuilder.ColumnGatherer.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

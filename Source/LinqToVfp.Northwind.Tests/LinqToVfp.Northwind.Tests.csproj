@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2E792FD2-D3EC-47C9-BF13-56B46C1C9145}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LinqToVfp.Northwind.Tests</RootNamespace>
+    <AssemblyName>LinqToVfp.Northwind.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resources\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="IQToolkit, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Resources\IQToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="IQToolkit.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\Resources\IQToolkit.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="IQToolkitContrib">
+      <HintPath>..\Resources\IQToolkitContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="VfpClient3.5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Resources\VfpClient3.5.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\LinqToVfp\Properties\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="CharByteArray\CharByteArrayTests.cs" />
+    <Compile Include="CharByteArray\MenuList.cs" />
+    <Compile Include="EntityProviderTests\ATranslationTests.cs" />
+    <Compile Include="EntityProviderTests\AEntityProviderTests.cs" />
+    <Compile Include="EntityProviderTests\Execution_DateTimeTests.cs" />
+    <Compile Include="EntityProviderTests\ExecutionTests.cs" />
+    <Compile Include="EntityProviderTests\CUDTests.cs" />
+    <Compile Include="FreeTableTests.cs" />
+    <Compile Include="NorthwindEntityProvider\Category.cs" />
+    <Compile Include="NorthwindEntityProvider\Customer.cs" />
+    <Compile Include="NorthwindEntityProvider\EmpT.cs" />
+    <Compile Include="NorthwindEntityProvider\INorthwindSession.cs" />
+    <Compile Include="NorthwindEntityProvider\NorthwindDataContext.cs" />
+    <Compile Include="NorthwindEntityProvider\NorthwindDataContextAttributes.cs" />
+    <Compile Include="NorthwindEntityProvider\NorthwindSession.cs" />
+    <Compile Include="NorthwindEntityProvider\Order.cs" />
+    <Compile Include="NorthwindEntityProvider\OrderDetail.cs" />
+    <Compile Include="NorthwindEntityProvider\Product.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RepositoryTests\ARepositoryTests.cs" />
+    <Compile Include="RepositoryTests\ExecutionTests.cs" />
+    <Compile Include="NorthwindRepository\Customer.cs" />
+    <Compile Include="NorthwindRepository\NorthwindDataContext.codegen.cs" />
+    <Compile Include="NorthwindRepository\NorthwindDataContext.cs" />
+    <Compile Include="NorthwindRepository\Order.cs" />
+    <Compile Include="NorthwindRepository\OrderDetail.cs" />
+    <Compile Include="NorthwindRepository\Product.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="TestContextWriter.cs" />
+    <Compile Include="TestPolicy.cs" />
+    <Compile Include="EntityProviderTests\TranslationTests.cs" />
+    <Compile Include="EntityProviderTests\Translation_DateTimeTests.cs" />
+    <Compile Include="XmlToCursorTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CharByteArrayData.zip" />
+    <None Include="Resources\DecimalTable.zip" />
+    <None Include="Resources\RepositoryMapping.xml" />
+    <None Include="Resources\NorthwindTranslation.xml" />
+    <None Include="Resources\Northwind.xml">
+      <SubType>Designer</SubType>
+    </None>
+    <EmbeddedResource Include="NorthwindRepository\Mapping.xml" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Resources\NorthwindVfp.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VisualBasic.PowerPacks.10.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Basic PowerPacks 10.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EntityProvider.iqcg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LinqToVfp\LinqToVfp.csproj">
+      <Project>{bd0cb824-c174-49d9-9174-d57f71253784}</Project>
+      <Name>LinqToVfp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
