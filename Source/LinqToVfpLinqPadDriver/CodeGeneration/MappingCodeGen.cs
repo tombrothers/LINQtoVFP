@@ -167,10 +167,10 @@ namespace LinqToVfpLinqPadDriver.CodeGeneration {
 
         private void WriteRelatedEntityId(Relationship relation, bool isParentRelations) {
             if (isParentRelations) {
-                Write(GetEntityClassName(relation.ParentTable));
+                Write(relation.ParentTable.PropertyName);
             }
             else {
-                Write(GetEntityClassName(relation.ChildTable));
+                Write(relation.ChildTable.PropertyName);
             }
         }
     }

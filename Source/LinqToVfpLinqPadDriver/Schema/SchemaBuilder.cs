@@ -50,6 +50,7 @@ namespace LinqToVfpLinqPadDriver.Schema {
             var writer = new CodeGenWriter();
             var code = writer.GetCode(connectionInfo, GetTableAndViews(schema));
 
+            System.Diagnostics.Debugger.Launch();
             // Compile the code into the assembly, using the assembly name provided:
             BuildAssembly(code, name);
 
@@ -59,19 +60,13 @@ namespace LinqToVfpLinqPadDriver.Schema {
             return schema;
         }
 
-        public static ReadOnlyCollection<SchemaObject> GetTableAndViews(List<ExplorerItem> schema) {
-            var tables = schema.Where(x => x.Tag is Table)
-                               .Select(x => x.Tag as SchemaObject)
-                               .ToList();
-
-            var categories = schema.Where(x => x.Kind == ExplorerItemKind.Category);
-
-            foreach (var category in categories) {
-                tables.AddRange(category.Children.Where(x => x.Tag is View).Select(x => x.Tag as SchemaObject).ToList());
-            }
-
-            return tables.AsReadOnly();
-        }
+        public static ReadOnlyCollection<SchemaObject> GetTableAndViews(List<ExplorerItem> schema) =>
+            schema.Where(x => x.Kind == ExplorerItemKind.Category)
+                .SelectMany(x => x.Children)
+                .Where(x => x.Tag is View || x.Tag is Table)
+                .Select(x => x.Tag as SchemaObject)
+                .ToList()
+                .AsReadOnly();
 
         public static void BuildAssembly(string code, AssemblyName name) {
             // Use the CSharpCodeProvider to compile the generated code:
