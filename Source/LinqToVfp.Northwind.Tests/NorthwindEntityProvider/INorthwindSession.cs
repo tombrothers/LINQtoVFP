@@ -1,6 +1,6 @@
 /*
  * LINQ to VFP 
- * http://linqtovfp.codeplex.com/
+ * https://github.com/tombrothers/LINQtoVFP
  * http://www.randomdevnotes.com/tag/linq-to-vfp/
  * 
  * Written by Tom Brothers (TomBrothers@Outlook.com)

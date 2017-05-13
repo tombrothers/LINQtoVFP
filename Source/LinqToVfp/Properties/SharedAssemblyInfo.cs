@@ -1,6 +1,6 @@
 /*
  * LINQ to VFP 
- * http://linqtovfp.codeplex.com/
+ * https://github.com/tombrothers/LINQtoVFP
  * http://www.randomdevnotes.com/tag/linq-to-vfp/
  * 
  * Written by Tom Brothers (TomBrothers@Outlook.com)
@@ -16,5 +16,5 @@ using System.Reflection;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyTitle("http://linqtovfp.codeplex.com/")]
+[assembly: AssemblyTitle("https://github.com/tombrothers/LINQtoVFP")]
 [assembly: AssemblyTrademark("")]
