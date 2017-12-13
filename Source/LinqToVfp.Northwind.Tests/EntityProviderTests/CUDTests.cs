@@ -10,6 +10,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using ICSharpCode.SharpZipLib.Zip;
 using IQToolkit;
 using LinqToVfp.Northwind.Tests.NorthwindEntityProvider;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,17 +18,24 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LinqToVfp.Northwind.Tests.EntityProviderTests {
     [TestClass]
     public class CUDTests : AEntityProviderTests {
+
         [TestCleanup]
         public void TestCleanup() {
-            CopyData(BackupPath, DbcPath);
+            CopyData(GetBackupPath(TestContext), GetDbcPath(TestContext));
         }
 
         [TestMethod]
         public void TestPack() {
-            var context = new NorthwindDataContext(Path.GetFullPath("Northwind.dbc"));
+            var path = Path.Combine(TestContext.TestDeploymentDir, Guid.NewGuid().ToString());
+            Directory.CreateDirectory(path);
+            var northwindZip = Path.Combine(path, "Northwind.zip");
+            File.WriteAllBytes(northwindZip, Properties.Resources.NorthwindVfpZip);
+            new FastZip().ExtractZip(northwindZip, path, string.Empty);
+            var northwindDbc = Path.Combine(path, "Northwind.dbc");
+            var context = new NorthwindDataContext(northwindDbc);
             context.Customers.Delete(context.Customers.Where(x => x.CustomerID == "PARIS").OrderBy(x => x.CustomerID).Last());
             Assert.AreEqual(90, context.Customers.Count());
-            var connectionString = @"Provider=VFPOLEDB;Data Source=" + Path.GetFullPath("Northwind.dbc") + ";Deleted=false;";
+            var connectionString = $@"Provider=VFPOLEDB;Data Source={northwindDbc};Deleted=false;";
             context = new NorthwindDataContext(connectionString);
             Assert.AreEqual(91, context.Customers.Count());
             context.Provider.Pack(context.Customers);
@@ -35,7 +43,13 @@ namespace LinqToVfp.Northwind.Tests.EntityProviderTests {
         }
         [TestMethod]
         public void TestZap() {
-            var context = new NorthwindDataContext(Path.GetFullPath("Northwind.dbc"));
+            var path = Path.Combine(TestContext.TestDeploymentDir, Guid.NewGuid().ToString());
+            Directory.CreateDirectory(path);
+            var northwindZip = Path.Combine(path, "Northwind.zip");
+            File.WriteAllBytes(northwindZip, Properties.Resources.NorthwindVfpZip);
+            new FastZip().ExtractZip(northwindZip, path, string.Empty);
+            var northwindDbc = Path.Combine(path, "Northwind.dbc");
+            var context = new NorthwindDataContext(northwindDbc);
             Assert.IsTrue(context.Customers.Any());
             context.Provider.Zap(context.Customers);
             Assert.IsFalse(context.Customers.Any());
@@ -156,7 +170,7 @@ namespace LinqToVfp.Northwind.Tests.EntityProviderTests {
 
         [TestMethod]
         public void TestInsertOrderWithGeneratedIDResult() {
-            CopyData(BackupPath, DbcPath);
+            CopyData(GetBackupPath(TestContext), GetDbcPath(TestContext));
             this.TestInsertCustomerNoResult(); // create customer "XX1"
             var order = new Order {
                 CustomerID = "XX1",

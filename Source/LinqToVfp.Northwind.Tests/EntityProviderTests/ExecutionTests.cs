@@ -1153,7 +1153,7 @@ namespace LinqToVfp.Northwind.Tests.EntityProviderTests {
 
         [TestMethod]
         public void TestStringSubstring() {
-            var list = this.Northwind.Customers.Where(c => c.City.Substring(0, 4) == "Seat").ToList();
+            var list = this.Northwind.Customers.Where(c => c.City.Substring(2, 4) == "attl").ToList();
             Assert.AreEqual(1, list.Count);
             Assert.AreEqual("Seattle", list[0].City);
         }

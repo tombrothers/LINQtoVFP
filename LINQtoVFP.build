@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="Resources\MSBuild.Community.Tasks.Targets" />
+
+  <PropertyGroup>
+    <Application>LINQtoVFP</Application>
+    <RootPath>$(MSBuildThisFileDirectory)</RootPath>
+    <IQToolKitCodeGenDeployPath>C:\_CodePlex\IQToolkitContrib\Deploy\IQToolKitCodeGen\</IQToolKitCodeGenDeployPath>
+
+    <DeployPath>$(RootPath)Deploy\</DeployPath>
+    <BuildPath>$(RootPath)Build\</BuildPath>
+    <TestPath>$(BuildPath)Test\</TestPath>
+    <TempPath>$(BuildPath)Temp\</TempPath>
+    <SourceCodePath>$(RootPath)Source\</SourceCodePath>
+    <VisualStudioIDEPath>%ProgramFiles%\Microsoft Visual Studio 14.0\Common7\IDE\</VisualStudioIDEPath>
+    <MSTestExe>$(VisualStudioIDEPath)MSTest.exe</MSTestExe>
+  </PropertyGroup>
+
+  <UsingTask TaskName="AssemblyInfoRevisionUpdate"
+             TaskFactory="CodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+    <ParameterGroup>
+      <SharedAssemblyInfoFile ParameterType="System.String"
+                              Required="true" />
+      <ApplicationAssemblyVersion ParameterType="System.String"
+                                  Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System"/>
+      <Using Namespace="System.IO"/>
+      <Using Namespace="System.Text.RegularExpressions"/>
+      <Code Type="Fragment"
+            Language="cs">
+        <![CDATA[
+              const string PATTERN = @"Assembly\w*Version\(\""\d+.\d+.\d+.\d+";
+              string content = File.ReadAllText(SharedAssemblyInfoFile);
+              
+              foreach (Match match in Regex.Matches(content, PATTERN)) {
+                  ApplicationAssemblyVersion = match.Value;
+                  ApplicationAssemblyVersion = ApplicationAssemblyVersion.Substring(ApplicationAssemblyVersion.IndexOf("\"") + 1);
+              }
+          ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <UsingTask TaskName="WriteNuSpec"
+                 TaskFactory="CodeTaskFactory"
+                 AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" >
+    <ParameterGroup>
+      <Path ParameterType="System.String" Required="true" />
+      <LinqToVfpAssemblyVersion ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System"/>
+      <Using Namespace="System.IO"/>
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+              File.WriteAllText(Path, 
+@"<?xml version=""1.0""?>
+<package xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
+  <metadata xmlns=""http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"">
+  <id>LINQtoVFP</id>
+  <version>" + LinqToVfpAssemblyVersion + @"</version>
+  <authors>Tom Brothers</authors>
+  <owners>Tom Brothers</owners>
+  <requireLicenseAcceptance>false</requireLicenseAcceptance>
+  <description>LINQ to VFP is an Object Relation Mapper for Visual FoxPro data.</description>
+  <summary>LINQ to VFP is an Object Relation Mapper for Visual FoxPro data.</summary>
+  <language>en-US</language>
+  <projectUrl>https://github.com/tombrothers/LINQtoVFP/</projectUrl>
+  </metadata>
+</package>
+              ");
+          ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="Build">
+    <!--<CallTarget Targets="Test" />-->
+
+    <ItemGroup>
+      <SharedAssemblyInfoFiles Include="$(SourceCodePath)**\SharedAssemblyInfo.cs" />
+    </ItemGroup>
+
+    <AssemblyInfoRevisionUpdate SharedAssemblyInfoFile="@(SharedAssemblyInfoFiles)">
+      <Output PropertyName="LinqToVfpAssemblyVersion" TaskParameter="ApplicationAssemblyVersion" />
+    </AssemblyInfoRevisionUpdate>
+
+    <RemoveDir
+			Directories="$(TempPath)"
+			Condition="Exists('$(TempPath)')" />
+
+    <!-- remove the previous deployment directory -->
+    <RemoveDir
+			Directories="$(DeployPath)"
+			Condition="Exists($(DeployPath))" />
+
+    <MakeDir
+      Directories="$(DeployPath)" />
+
+    <CallTarget Targets="BuildLINQtoVFP" />
+    <CallTarget Targets="BuildLINQPadDriver" />
+
+    <CallTarget Targets="CopyIQToolkitCodeGen" />
+    <WriteNuSpec Path="$(DeployPath)linqtovfp.nuspec" LinqToVfpAssemblyVersion="$(LinqToVfpAssemblyVersion)" />
+    
+    <Copy
+      SourceFiles="$(RootPath)Resources\readme.txt"
+      DestinationFolder="$(DeployPath)"/>
+
+    <Exec Command="$(RootPath)Resources\NuGet.exe pack $(DeployPath)linqtovfp.nuspec" />
+
+    <ItemGroup>
+      <NuGetFiles Include="$(BuildPath)*.nupkg" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ZipFiles Include="$(DeployPath)**\*.*" />
+      <ZipFiles Remove="$(DeployPath)linqtovfp.nuspec" />
+    </ItemGroup>
+
+    <Copy
+       SourceFiles="@(NuGetFiles)"
+       DestinationFolder="$(DeployPath)" />
+
+    <Delete Files="@(NuGetFiles)" />
+    <Delete Files="$(DeployPath)readme.txt" />
+
+    <Zip Files="@(ZipFiles)"
+			 ZipFileName="$(DeployPath)$(Application).zip"
+			 WorkingDirectory="$(DeployPath)" />
+  </Target>
+
+  <Target Name="CopyIQToolkitCodeGen">
+    <ItemGroup>
+      <Files Include="$(IQToolKitCodeGenDeployPath)**\*.*" />
+    </ItemGroup>
+
+    <Copy
+      SourceFiles="@(Files)"
+      DestinationFolder="$(DeployPath)IQToolKitCodeGen\%(RecursiveDir)" />
+  </Target>
+
+  <Target Name="BuildLINQPadDriver">
+    <PropertyGroup>
+      <LinqPadDriverTemp>$(BuildPath)LinqPadDriverTemp\</LinqPadDriverTemp>
+    </PropertyGroup>
+    <!-- rebuild -->
+    <MSBuild
+      Projects="$(SourceCodePath)$(Application).sln;"
+			Targets="ReBuild"
+			Properties="Configuration=Release;OutDir=$(LinqPadDriverTemp);" />
+
+    <ItemGroup>
+      <DebugFiles Include="$(LinqPadDriverTemp)**\*.pdb" />
+      <DebugFiles Include="$(LinqPadDriverTemp)**\*.Tests.dll" />
+      <DebugFiles Include="$(LinqPadDriverTemp)**\ICSharpCode.SharpZipLib.dll" />
+      <DebugFiles Include="$(LinqPadDriverTemp)**\LINQPad.exe" />
+      <DebugFiles Include="$(LinqPadDriverTemp)**\*.UnitTestFramework.dll" />
+      <DebugFiles Include="$(LinqPadDriverTemp)**\*.Moles.*" />
+    </ItemGroup>
+
+    <Delete Files="@(DebugFiles)" />
+
+    <ItemGroup>
+      <ZipFiles Include="$(LinqPadDriverTemp)*.*" />
+    </ItemGroup>
+
+    <Zip Files="@(ZipFiles)"
+			 ZipFileName="$(LinqPadDriverTemp)LinqToVfpLinqPadDriver.lpx"
+			 WorkingDirectory="$(LinqPadDriverTemp)" />
+
+    <Copy
+			SourceFiles="$(LinqPadDriverTemp)LinqToVfpLinqPadDriver.lpx"
+			DestinationFolder="$(DeployPath)" />
+
+    <Delete Files="@(ZipFiles)" />
+    <Delete Files="$(LinqPadDriverTemp)LinqToVfpLinqPadDriver.lpx" />
+  </Target>
+
+  <Target Name="BuildLINQtoVFP">
+    <!-- rebuild -->
+    <MSBuild
+      Projects="$(SourceCodePath)$(Application).sln;"
+			Targets="ReBuild"
+			Properties="Configuration=Release;OutDir=$(TempPath);" />
+
+    <ItemGroup>
+      <DebugFiles Include="$(TempPath)**\*.pdb" />
+      <DebugFiles Include="$(TempPath)**\*.Tests.dll" />
+      <DebugFiles Include="$(TempPath)**\ICSharpCode.SharpZipLib.dll" />
+      <DebugFiles Include="$(TempPath)**\LinqToVfpLinqPadDriver.dll" />
+      <DebugFiles Include="$(LinqPadDriverTemp)**\*.UnitTestFramework.dll" />
+      <DebugFiles Include="$(TempPath)**\*.Moles.*" />
+    </ItemGroup>
+
+    <Delete Files="@(DebugFiles)" />
+
+    <ItemGroup>
+      <BuildFiles Include="$(TempPath)*.dll" />
+    </ItemGroup>
+
+    <Copy
+			SourceFiles="@(BuildFiles)"
+			DestinationFolder="$(DeployPath)lib\" />
+  </Target>
+
+  <Target Name="Test">
+    <!-- get a list of test projects -->
+    <ItemGroup>
+      <TestProjects Include="$(SourceCodePath)*\**\*.Tests.csproj" />
+    </ItemGroup>
+
+    <!-- delete the previous test output -->
+    <RemoveDir
+			Directories="$(TestPath)\%(TestProjects.Filename)\"
+			Condition="Exists('$(TestPath)\%(TestProjects.Filename)\')" />
+
+    <!-- build the test projects with the output pointing to the CI test directory -->
+    <MSBuild
+			Projects="%(TestProjects.Identity)"
+			Targets="ReBuild"
+			Properties="Configuration=Release;OutDir=$(TestPath)\%(TestProjects.Filename)\"/>
+
+    <!-- get a list of test dlls -->
+    <ItemGroup>
+      <TestDlls Include="$(TestPath)$(Application)*\**\*.Tests.dll" />
+    </ItemGroup>
+
+    <Exec
+			Command="&quot;$(MSTestExe)&quot; /testcontainer:&quot;%(TestDlls.Identity)&quot; /resultsfile:&quot;%(TestDlls.FullPath).xml&quot;"
+			Condition="%(TestDlls.Identity) != ''" />
+
+    <!-- move the results files into the root CI test directory-->
+    <Copy
+			SourceFiles="%(TestDlls.FullPath).xml"
+			DestinationFolder="$(TestPath)"
+			Condition="Exists('%(TestDlls.FullPath).xml')" />
+
+    <!-- remove the project test directories -->
+    <RemoveDir Directories="%(TestDlls.RelativeDir)" />
+  </Target>
+</Project>

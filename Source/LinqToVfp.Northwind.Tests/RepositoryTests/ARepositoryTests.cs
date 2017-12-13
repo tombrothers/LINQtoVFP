@@ -7,35 +7,29 @@
  * 
  * Released to the public domain, use at your own risk!
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LinqToVfp.Northwind.Tests.NorthwindRepository;
+
 using System.IO;
+using LinqToVfp.Northwind.Tests.NorthwindRepository;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LinqToVfp.Northwind.Tests.RepositoryTests {
     [TestClass]
     public abstract class ARepositoryTests : TestBase {
         #region Northwind
 
-        private NorthwindDataContext northwind;
-
-        protected NorthwindDataContext Northwind {
-            get {
-                return this.northwind;
-            }
-        }
+        protected NorthwindDataContext Northwind { get; private set; }
 
         #endregion
 
-        [TestInitialize()]
+        [TestInitialize]
         public virtual void TestInitialize() {
-            string connectionString = @"Provider=VFPOLEDB.1;Data Source=" + Path.GetFullPath("Northwind.dbc") + ";Exclusive=false";
+            var connectionString = $@"Provider=VFPOLEDB.1;Data Source={Path.Combine(TestContext.TestDeploymentDir, "Northwind.dbc")};Exclusive=false";
 
-            this.northwind = new NorthwindDataContext(connectionString, new TestContextWriter(this.TestContext));
-            this.northwind.Provider.AutoRightTrimStrings = true;
+            Northwind = new NorthwindDataContext(connectionString, new TestContextWriter(TestContext)) {
+                Provider = {
+                    AutoRightTrimStrings = true
+                }
+            };
         }
     }
 }

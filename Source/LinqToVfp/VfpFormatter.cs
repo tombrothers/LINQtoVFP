@@ -372,7 +372,7 @@ namespace LinqToVfp {
                         this.Visit(m.Object);
                         this.Write(", ");
                         this.Visit(m.Arguments[0]);
-                        this.Write(" + 1");
+
                         if (m.Arguments.Count == 2) {
                             this.Write(", ");
                             this.Visit(m.Arguments[1]);
@@ -385,7 +385,7 @@ namespace LinqToVfp {
                         this.Visit(m.Object);
                         this.Write(", ");
                         this.Visit(m.Arguments[0]);
-                        this.Write(" + 1, ");
+                        this.Write(", ");
                         if (m.Arguments.Count == 2) {
                             this.Visit(m.Arguments[1]);
                         }

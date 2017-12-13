@@ -17,17 +17,11 @@ namespace LinqToVfp.Northwind.Tests {
     [TestClass]
     public abstract class TestBase {
         public TestContext TestContext { get; set; }
-        protected static string DbcPath {
-            get {
-                return Path.GetDirectoryName(Path.GetFullPath("northwind.dbc"));
-            }
-        }
+        protected static string GetDbcPath(TestContext context) => 
+            context.TestDeploymentDir;
 
-        protected static string BackupPath {
-            get {
-                return Path.Combine(DbcPath, "Backup");
-            }
-        }
+        protected static string GetBackupPath(TestContext context) => 
+            Path.Combine(GetDbcPath(context), "Backup");
 
         [AssemblyInitialize]
         public static void AssemblyInit(TestContext context) {
@@ -39,8 +33,10 @@ namespace LinqToVfp.Northwind.Tests {
             zip.ExtractZip("NorthwindVfp.zip", context.TestDeploymentDir, string.Empty);
             zip.ExtractZip("DecimalTable.zip", Path.Combine(context.TestDeploymentDir, "Decimal"), string.Empty);
 
-            Directory.CreateDirectory(BackupPath);
-            CopyData(DbcPath, BackupPath);
+            var backupPath = GetBackupPath(context);
+            Directory.CreateDirectory(backupPath);
+
+            CopyData(GetDbcPath(context), backupPath);
 
             VfpClientTracing.Tracer = new TraceSource("VfpClient", SourceLevels.Information);
             VfpClientTracing.Tracer.Listeners.Add(new TestContextTraceListener(context));

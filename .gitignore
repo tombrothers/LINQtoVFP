@@ -228,3 +228,5 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+/Deploy
+.vs

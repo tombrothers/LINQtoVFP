@@ -885,12 +885,12 @@ SELECT t1.ProductID FROM ( SELECT t2.CustomerID, t3.CustomerID AS CustomerID0 FR
 	<baseline key="TestStringSubstring">
 		SELECT t0.City, t0.CompanyName, t0.ContactName, t0.Country, t0.CustomerID, t0.Phone
 		FROM Customers AS t0
-		WHERE (SUBSTR(t0.City, 0 + 1, 4) = @__Param__0__)
+		WHERE (SUBSTR(t0.City, 1, 4) = @__Param__0__)
 	</baseline>
 	<baseline key="TestStringSubstringNoLength">
 		SELECT t0.City, t0.CompanyName, t0.ContactName, t0.Country, t0.CustomerID, t0.Phone
 		FROM Customers AS t0
-		WHERE (SUBSTR(t0.City, 4 + 1) = @__Param__0__)
+		WHERE (SUBSTR(t0.City, 5) = @__Param__0__)
 	</baseline>
 	<baseline key="TestStringIndexOf">
 		SELECT t0.City, t0.CompanyName, t0.ContactName, t0.Country, t0.CustomerID, t0.Phone
@@ -925,12 +925,12 @@ SELECT t1.ProductID FROM ( SELECT t2.CustomerID, t3.CustomerID AS CustomerID0 FR
 	<baseline key="TestStringRemove">
 		SELECT t0.City, t0.CompanyName, t0.ContactName, t0.Country, t0.CustomerID, t0.Phone
 		FROM Customers AS t0
-		WHERE (STUFF(t0.City, 1 + 1, 2, '') = @__Param__0__)
+		WHERE (STUFF(t0.City, 2, 2, '') = @__Param__0__)
 	</baseline>
 	<baseline key="TestStringRemoveNoCount">
 		SELECT t0.City, t0.CompanyName, t0.ContactName, t0.Country, t0.CustomerID, t0.Phone
 		FROM Customers AS t0
-		WHERE (STUFF(t0.City, 4 + 1, 8000, '') = @__Param__0__)
+		WHERE (STUFF(t0.City, 5, 8000, '') = @__Param__0__)
 	</baseline>
 	<baseline key="Translation_DateTimeTest_ConstructYMD">
     SELECT t0.CustomerID, t0.Freight, t0.OrderDate, t0.OrderID, t0.ShipCountry

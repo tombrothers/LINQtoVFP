@@ -33,6 +33,8 @@ namespace LinqToVfp {
                 expression = RedundantColumnRemover.Remove(expression);
                 expression = RedundantSubqueryRemover.Remove(expression);
 
+                expression = OneBasedIndexRewriter.Rewrite(expression);
+
                 // convert cross-apply and outer-apply joins into inner & left-outer-joins if possible
                 var rewritten = CrossApplyRewriter.Rewrite(this.language, expression);
 

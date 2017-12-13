@@ -85,6 +85,7 @@
     <Compile Include="ExpressionRewriters\ConditionalImmediateIfNullRemover.cs" />
     <Compile Include="ExpressionRewriters\CrossApplyRewriter.cs" />
     <Compile Include="ExpressionRewriters\CrossJoinRewriter.cs" />
+    <Compile Include="ExpressionRewriters\OneBasedIndexRewriter.cs" />
     <Compile Include="ExpressionRewriters\OrderByRewriter.cs" />
     <Compile Include="ExpressionRewriters\XmlToCursorExpressionRewriter.cs" />
     <Compile Include="ExpressionRewriters\RedundantColumnRemover.cs" />
