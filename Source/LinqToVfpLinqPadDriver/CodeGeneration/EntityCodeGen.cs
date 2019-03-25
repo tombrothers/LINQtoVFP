@@ -41,7 +41,7 @@ namespace LinqToVfpLinqPadDriver.CodeGeneration {
         private void WriteColumns() {
             foreach (var column in _schemaObject.Columns.Values.Cast<VfpColumn>()) {
                 WriteTab();
-                Write("public System.");
+                Write("public global::System.");
                 WriteClrType(column);
                 Write(" ");
                 Write(column.PropertyName);

@@ -125,7 +125,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(TargetDir)LinqToVfpLinqPadDriver.*" "C:\Users\Tom\AppData\Local\LINQPad\Drivers\DataContext\4.6\LinqToVfpLinqPadDriver (38cb6d207d4a86bc)" /y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(TargetDir)LinqToVfpLinqPadDriver.*" "%25localappdata%25\LINQPad\Drivers\DataContext\4.6\LinqToVfpLinqPadDriver (38cb6d207d4a86bc)" /y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
