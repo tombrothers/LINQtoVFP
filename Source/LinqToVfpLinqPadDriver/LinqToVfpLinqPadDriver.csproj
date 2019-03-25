@@ -84,7 +84,6 @@
     </Compile>
     <Compile Include="CodeGeneration\DataContextCodeGen.cs" />
     <Compile Include="CodeGeneration\EntityCodeGen.cs" />
-    <None Include="Schema\blah.cs" />
     <Compile Include="Schema\EntityMemberProvider.cs" />
     <Compile Include="Schema\PrimaryKey.cs" />
     <Compile Include="Schema\SchemaBuilder.cs" />
